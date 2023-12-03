@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import cors from "cors";
 import { Client } from "pg";
 
 dotenv.config();
@@ -22,7 +23,7 @@ databaseConnection();
 const app = express(),
   port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json(), cors());
 
 app.get("/data", async (_request, response) => {
   try {
