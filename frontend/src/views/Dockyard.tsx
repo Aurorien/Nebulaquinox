@@ -24,6 +24,7 @@ function Home() {
   const [dockingStatusData, setDockingStatusData] = useState<DockingStatus[]>(
     []
   );
+  const [editMode, setEditMode] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,27 @@ function Home() {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      const formElement = document.getElementById("add-spaceship-form");
+      if (
+        formElement &&
+        !formElement.contains(target) &&
+        !target.classList.contains("button-plus")
+      ) {
+        handleFormMode(0);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   const [data, setData] = useState<ApiResponse[] | null>(null),
@@ -89,6 +111,7 @@ function Home() {
           spaceshipName: "",
           dockingStatusId: null,
         });
+        handleFormMode(0);
       });
   }
 
@@ -126,10 +149,14 @@ function Home() {
       });
   }
 
-  const [editMode, setEditMode] = useState<number | null>(null);
-
-  const handleEdit = (spaceshipId: number) => {
+  const handleEditMode = (spaceshipId: number) => {
     setEditMode(spaceshipId);
+  };
+
+  const [formMode, setFormMode] = useState<number>(0);
+
+  const handleFormMode = (value: number) => {
+    setFormMode(value);
   };
 
   const handleSave = (spaceshipId: number, dockingStatusId: number | null) => {
@@ -169,36 +196,44 @@ function Home() {
         <Link to="/">Home</Link>
       </nav>
       <h1>Spaceship dockyard</h1>
-      <div className="add-spaceship-wrapper">
-        <div className="add-spaceship-title-wrapper">
-          <h2 className="add-spaceship">Add spaceship</h2>
+      {formMode ? (
+        <div className="add-spaceship-wrapper" id="add-spaceship-form">
+          <div className="add-spaceship-title-wrapper">
+            <h2 className="add-spaceship">Add spaceship</h2>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Name:
+              <div>
+                <input
+                  name="spaceshipName"
+                  onChange={handleInput}
+                  value={formData.spaceshipName}
+                />
+              </div>
+            </label>
+            <label>
+              Docking status:
+              <div>
+                <Dropdown
+                  formData={formData}
+                  handleSelect={handleSelect}
+                  dockingStatusData={dockingStatusData}
+                />
+              </div>
+            </label>
+            <button type="submit" disabled={isSubmitDisabled}>
+              Add
+            </button>
+          </form>
         </div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name:
-            <div>
-              <input
-                name="spaceshipName"
-                onChange={handleInput}
-                value={formData.spaceshipName}
-              />
-            </div>
-          </label>
-          <label>
-            Docking status:
-            <div>
-              <Dropdown
-                formData={formData}
-                handleSelect={handleSelect}
-                dockingStatusData={dockingStatusData}
-              />
-            </div>
-          </label>
-          <button type="submit" disabled={isSubmitDisabled}>
-            Add
+      ) : (
+        <div className="button-plus-wrapper">
+          <button className="button-plus" onClick={() => handleFormMode(1)}>
+            +
           </button>
-        </form>
-      </div>
+        </div>
+      )}
       <div>
         {loading ? (
           <p>Loading...</p>
@@ -209,7 +244,12 @@ function Home() {
                 <h2>Docked spaceships:</h2>
                 <ol className="spaceship-ol">
                   {data.map((data) => (
-                    <li key={data.spaceshipid} className="spaceship-li-name">
+                    <li
+                      key={data.spaceshipid}
+                      className={`spaceship-li-name ${
+                        editMode === data.spaceshipid ? "edit-mode" : ""
+                      }`}
+                    >
                       <span>
                         <div className="spaceship-li-label">
                           Spaceship name:
@@ -227,19 +267,27 @@ function Home() {
                                 dockingStatusData={dockingStatusData}
                               />
                             </label>
-                            {formData.dockingStatusId && (
+                            <span>
                               <button
-                                type="button"
-                                onClick={() =>
-                                  handleSave(
-                                    data.spaceshipid,
-                                    formData.dockingStatusId
-                                  )
-                                }
+                                onClick={() => handleDeparted(data.spaceshipid)}
+                                className="button-departed"
                               >
-                                Save
+                                Departed
                               </button>
-                            )}
+                            </span>
+                            <button
+                              type="button"
+                              disabled={formData.dockingStatusId ? false : true}
+                              onClick={() =>
+                                handleSave(
+                                  data.spaceshipid,
+                                  formData.dockingStatusId
+                                )
+                              }
+                              className="button-save"
+                            >
+                              Save
+                            </button>
                           </div>
                         ) : (
                           <>
@@ -249,23 +297,16 @@ function Home() {
                               </div>{" "}
                               {data.dockingstatusname}
                             </span>
-                            <button
-                              type="button"
-                              onClick={() => handleEdit(data.spaceshipid)}
-                            >
-                              Edit
-                            </button>
+                            <span className="button-edit">
+                              <button
+                                onClick={() => handleEditMode(data.spaceshipid)}
+                              >
+                                Edit
+                              </button>
+                            </span>
                           </>
                         )}
                       </span>
-                      <div>
-                        <button
-                          onClick={() => handleDeparted(data.spaceshipid)}
-                          className="button-departed"
-                        >
-                          Departed
-                        </button>
-                      </div>
                     </li>
                   ))}
                 </ol>
