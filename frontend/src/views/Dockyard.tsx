@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./Dockyard.css";
 import axios from "axios";
+import Dropdown from "../components/Dropdown";
 
 interface ApiResponse {
   spaceshipid: number;
@@ -150,19 +151,12 @@ function Home() {
       });
   };
 
-  const handleSelectEdit = (dockingStatusId: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      dockingStatusId: dockingStatusId,
-    }));
-  };
-
   const handleDeparted = (spaceshipId: number) => {
     axios
       .delete(`/data/depart/${spaceshipId}`)
       .then(() => {
         console.log(`Spaceship ${spaceshipId} departed successfully`);
-        fetchDataAndReload(); // Reload the data after successful departure
+        fetchDataAndReload();
       })
       .catch((error) => {
         console.error(`Error departing spaceship ${spaceshipId}:`, error);
@@ -193,27 +187,11 @@ function Home() {
           <label>
             Docking status:
             <div>
-              <select
-                name="dockingStatusId"
-                onChange={handleSelect}
-                value={
-                  formData.dockingStatusId !== null
-                    ? String(formData.dockingStatusId)
-                    : ""
-                }
-              >
-                <option value={""} disabled>
-                  Select status
-                </option>
-                {dockingStatusData.map((status) => (
-                  <option
-                    key={status.dockingstatusid}
-                    value={status.dockingstatusid}
-                  >
-                    {status.dockingstatusname}
-                  </option>
-                ))}
-              </select>
+              <Dropdown
+                formData={formData}
+                handleSelect={handleSelect}
+                dockingStatusData={dockingStatusData}
+              />
             </div>
           </label>
           <button type="submit" disabled={isSubmitDisabled}>
@@ -243,29 +221,11 @@ function Home() {
                           <div>
                             <label>
                               Docking status:
-                              <select
-                                name="dockingStatusId"
-                                onChange={(e) =>
-                                  handleSelectEdit(parseInt(e.target.value, 10))
-                                }
-                                value={
-                                  formData.dockingStatusId !== null
-                                    ? String(formData.dockingStatusId)
-                                    : ""
-                                }
-                              >
-                                <option value="" disabled>
-                                  Select status
-                                </option>
-                                {dockingStatusData.map((status) => (
-                                  <option
-                                    key={status.dockingstatusid}
-                                    value={status.dockingstatusid}
-                                  >
-                                    {status.dockingstatusname}
-                                  </option>
-                                ))}
-                              </select>
+                              <Dropdown
+                                formData={formData}
+                                handleSelect={handleSelect}
+                                dockingStatusData={dockingStatusData}
+                              />
                             </label>
                             {formData.dockingStatusId && (
                               <button
@@ -282,7 +242,6 @@ function Home() {
                             )}
                           </div>
                         ) : (
-                          // Render edit button in normal mode
                           <>
                             <span>
                               <div className="spaceship-li-label">

@@ -1,5 +1,5 @@
-import Home from "./components/Home";
-import Dockyard from "./components/Dockyard";
+import Home from "./views/Home";
+import Dockyard from "./views/Dockyard";
 
 import { createHashRouter, Outlet, RouterProvider } from "react-router-dom";
 
