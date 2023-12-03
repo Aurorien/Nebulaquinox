@@ -1,12 +1,5 @@
-interface DockingStatus {
-  dockingstatusid: number;
-  dockingstatusname: string;
-}
-
-interface FormData {
-  spaceshipName: string;
-  dockingStatusId: number | null;
-}
+import { FormData } from "../views/Dockyard";
+import { DockingStatus } from "../views/Dockyard";
 
 interface DropdownProps {
   formData: FormData;

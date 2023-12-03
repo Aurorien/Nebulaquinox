@@ -10,12 +10,12 @@ interface ApiResponse {
   dockingstatusname: string;
 }
 
-interface DockingStatus {
+export interface DockingStatus {
   dockingstatusid: number;
   dockingstatusname: string;
 }
 
-interface FormData {
+export interface FormData {
   spaceshipName: string;
   dockingStatusId: number | null;
 }
