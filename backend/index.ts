@@ -98,9 +98,9 @@ app.put("/data/edit/:spaceshipId", async (_request, response) => {
   }
 });
 
-app.delete("/data/depart/", async (_request, response) => {
+app.delete("/data/depart/:spaceshipId", async (_request, response) => {
   console.log("DELETE Received JSON data from frontend:", _request.params);
-  const { spaceshipId } = _request.body;
+  const { spaceshipId } = _request.params;
 
   try {
     const result = await client.query(
