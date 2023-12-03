@@ -1,5 +1,3 @@
-import React from "react";
-
 interface DockingStatus {
   dockingstatusid: number;
   dockingstatusname: string;
