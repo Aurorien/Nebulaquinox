@@ -1,0 +1,79 @@
+h1,
+h2 {
+  text-align: center;
+}
+.add-spaceship {
+  background-color: rgba(1, 14, 47, 0.9);
+  max-width: max-content;
+  padding: 20px;
+  border-radius: 70%;
+}
+
+.add-spaceship-wrapper {
+  border-color: aqua;
+  border-radius: 50%;
+  border-style: groove;
+  padding: 5px 30px;
+}
+
+.add-spaceship-title-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.button-departed {
+  background-color: rgb(241, 50, 2);
+  border-radius: 10px;
+  padding: 2px;
+  margin: 30% 0 0 0;
+}
+
+form {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+label {
+  padding: 5px 20px 7px 10px;
+}
+
+li {
+  color: rgb(227, 230, 234);
+  background-color: rgba(92, 58, 65, 0.5);
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.spaceship-list {
+  background-color: rgba(202, 82, 35, 0.8);
+  border-radius: 90px;
+  max-width: max-content;
+  margin-bottom: 20px;
+  margin-top: 12px;
+}
+
+.spaceship-li-label {
+  color: rgb(247, 196, 142);
+}
+
+.spaceship-list-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.spaceship-ol {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 40px 40px 40px;
+  text-align: left;
+}
+
+span {
+  width: 200px;
+}
+
+.spaceship-li-name {
+  display: flex;
+  flex-direction: row;
+}

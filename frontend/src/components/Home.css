@@ -1,0 +1,22 @@
+.home-wrapper {
+  background-image: url(../assets/nebula.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-title {
+  border-color: rgb(64, 104, 139, 0.8);
+  border-radius: 50%;
+  border-style: dotted;
+  color: #c2d7e3;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  padding: 5px 175px 12px 175px;
+  text-shadow: 5px 5px 10px #030303, -5px -5px 10px #020202;
+}
