@@ -24,8 +24,32 @@ h2 {
 .button-departed {
   background-color: rgb(241, 50, 2);
   border-radius: 10px;
-  padding: 2px;
-  margin: 30% 0 0 0;
+  padding: 1px 4px 3px 4px;
+}
+
+.button-edit {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 100px 0 0;
+}
+
+.button-plus {
+  font-size: xx-large;
+  font-weight: 900;
+  padding-top: 1%;
+  padding: 3px 20px 10px 20px;
+}
+
+.button-plus-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-save {
+  background-color: rgb(180, 129, 0);
+  padding: 1px 8px 3px 8px;
+  margin-top: 5px;
 }
 
 form {
