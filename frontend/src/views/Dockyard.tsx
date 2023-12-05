@@ -20,7 +20,7 @@ export interface FormData {
   dockingStatusId: number | null;
 }
 
-function Home() {
+function Dockyard() {
   const [dockingStatusData, setDockingStatusData] = useState<DockingStatus[]>(
     []
   );
@@ -319,4 +319,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dockyard;
