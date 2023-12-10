@@ -1,0 +1,17 @@
+[
+  {
+    "spaceshipid": 4,
+    "spaceshipname": "Darkvoida",
+    "dockingstatusname": "Docking"
+  },
+  {
+    "spaceshipid": 3,
+    "spaceshipname": "Nebulynth",
+    "dockingstatusname": "Docking"
+  },
+  {
+    "spaceshipid": 2,
+    "spaceshipname": "Starcore",
+    "dockingstatusname": "Incomming"
+  }
+]

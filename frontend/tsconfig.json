@@ -20,6 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "cypress/component/Dropdown.cy.tsx",
+    "cypress/component/Dockyard.cy.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
