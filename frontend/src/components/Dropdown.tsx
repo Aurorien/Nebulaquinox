@@ -1,17 +1,35 @@
 import { FormData } from "../views/Dockyard";
-import { DockingStatus } from "../views/Dockyard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface DropdownProps {
   formData: FormData;
   handleSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  dockingStatusData: DockingStatus[];
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
-  formData,
-  handleSelect,
-  dockingStatusData,
-}) => {
+export interface DockingStatus {
+  dockingstatusid: number;
+  dockingstatusname: string;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ formData, handleSelect }) => {
+  const [dockingStatusData, setDockingStatusData] = useState<DockingStatus[]>(
+    []
+  );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/data/docking-status");
+
+        setDockingStatusData(response.data);
+      } catch (error) {
+        console.error("Error fetching docking status data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <select
       name="dockingStatusId"
@@ -21,6 +39,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           ? String(formData.dockingStatusId)
           : ""
       }
+      id="dropdown"
     >
       <option value={""} disabled>
         Select status

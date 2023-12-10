@@ -10,36 +10,13 @@ interface ApiResponse {
   dockingstatusname: string;
 }
 
-export interface DockingStatus {
-  dockingstatusid: number;
-  dockingstatusname: string;
-}
-
 export interface FormData {
   spaceshipName: string;
   dockingStatusId: number | null;
 }
 
 function Dockyard() {
-  const [dockingStatusData, setDockingStatusData] = useState<DockingStatus[]>(
-    []
-  );
   const [editMode, setEditMode] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/docking-status");
-        console.log("Docking-Status response.data", response.data);
-
-        setDockingStatusData(response.data);
-      } catch (error) {
-        console.error("Error fetching docking status data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -127,6 +104,8 @@ function Dockyard() {
     axios
       .get("/data")
       .then((response) => {
+        console.log("response GET", response);
+
         setDataCallback(response.data);
         setLoading(false);
       })
@@ -209,27 +188,28 @@ function Dockyard() {
                   name="spaceshipName"
                   onChange={handleInput}
                   value={formData.spaceshipName}
+                  id="add-name"
                 />
               </div>
             </label>
             <label>
               Docking status:
               <div>
-                <Dropdown
-                  formData={formData}
-                  handleSelect={handleSelect}
-                  dockingStatusData={dockingStatusData}
-                />
+                <Dropdown formData={formData} handleSelect={handleSelect} />
               </div>
             </label>
-            <button type="submit" disabled={isSubmitDisabled}>
+            <button type="submit" disabled={isSubmitDisabled} id="add-button">
               Add
             </button>
           </form>
         </div>
       ) : (
         <div className="button-plus-wrapper">
-          <button className="button-plus" onClick={() => handleFormMode(1)}>
+          <button
+            className="button-plus"
+            id="plus-button"
+            onClick={() => handleFormMode(1)}
+          >
             +
           </button>
         </div>
@@ -250,7 +230,7 @@ function Dockyard() {
                         editMode === data.spaceshipid ? "edit-mode" : ""
                       }`}
                     >
-                      <span>
+                      <span id="spaceship-name">
                         <div className="spaceship-li-label">
                           Spaceship name:
                         </div>{" "}
@@ -264,7 +244,6 @@ function Dockyard() {
                               <Dropdown
                                 formData={formData}
                                 handleSelect={handleSelect}
-                                dockingStatusData={dockingStatusData}
                               />
                             </label>
                             <span>
