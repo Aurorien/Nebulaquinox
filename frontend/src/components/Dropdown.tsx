@@ -1,6 +1,7 @@
 import { FormData } from "../views/Dockyard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { errorHandling } from "../utils/ErrorHandling";
 
 interface DropdownProps {
   formData: FormData;
@@ -19,11 +20,13 @@ const Dropdown: React.FC<DropdownProps> = ({ formData, handleSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/docking-status");
+        const responseData: DockingStatus[] = (
+          await axios.get("/data/docking-status")
+        ).data;
 
-        setDockingStatusData(response.data);
+        setDockingStatusData(responseData);
       } catch (error) {
-        console.error("Error fetching docking status data:", error);
+        errorHandling("GET", "docking-status", error);
       }
     };
 

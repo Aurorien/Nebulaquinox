@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Dockyard.css";
 import axios from "axios";
 import Dropdown from "../components/Dropdown";
+import { errorHandling } from "../utils/ErrorHandling";
 
 interface ApiResponse {
   spaceshipid: number;
@@ -81,7 +82,7 @@ function Dockyard() {
         fetchDataAndReload();
       })
       .catch((error) => {
-        console.error(error);
+        errorHandling("POST", "spaceship", error);
       })
       .finally(() => {
         setFormData({
@@ -104,13 +105,13 @@ function Dockyard() {
     axios
       .get("/data")
       .then((response) => {
-        console.log("response GET", response);
-
-        setDataCallback(response.data);
+        const responseData: ApiResponse[] = response.data;
+        console.log("response GET", responseData);
+        setDataCallback(responseData);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        errorHandling("GET", "spaceships", error);
         setLoading(false);
       });
   }, [setDataCallback]);
@@ -119,11 +120,12 @@ function Dockyard() {
     axios
       .get("/data")
       .then((response) => {
-        setDataCallback(response.data);
+        const responseData: ApiResponse[] = response.data;
+        setDataCallback(responseData);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        errorHandling("GET", "spaceships in fetchDataAndReload", error);
         setLoading(false);
       });
   }
@@ -147,7 +149,7 @@ function Dockyard() {
         setEditMode(null); // Exit edit mode
       })
       .catch((error) => {
-        console.error(`Error updating spaceship ${spaceshipId}:`, error);
+        errorHandling("PUT", `spaceship width id ${spaceshipId}`, error);
       })
       .finally(() => {
         setFormData({
@@ -165,7 +167,7 @@ function Dockyard() {
         fetchDataAndReload();
       })
       .catch((error) => {
-        console.error(`Error departing spaceship ${spaceshipId}:`, error);
+        errorHandling("DELETE", `spaceship width id ${spaceshipId}`, error);
       });
   };
 
